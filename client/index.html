@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="DermAI - Advanced skin lesion segmentation using deep learning. Analyze dermoscopic images for potential skin cancer lesions.">
+    <meta name="keywords" content="skin cancer, dermoscopy, AI, deep learning, medical imaging, lesion segmentation">
+    <title>DermAI | AI-Powered Skin Lesion Analysis</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <!-- Gradient Background -->
+    <div class="gradient-bg"></div>
+    <div class="gradient-orbs">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="20" cy="20" r="18" stroke="url(#gradient1)" stroke-width="2" />
+                        <circle cx="20" cy="20" r="8" fill="url(#gradient1)" />
+                        <path d="M20 2C20 2 25 10 25 20C25 30 20 38 20 38" stroke="url(#gradient1)" stroke-width="2"
+                            stroke-linecap="round" />
+                        <path d="M20 2C20 2 15 10 15 20C15 30 20 38 20 38" stroke="url(#gradient1)" stroke-width="2"
+                            stroke-linecap="round" />
+                        <defs>
+                            <linearGradient id="gradient1" x1="0" y1="0" x2="40" y2="40">
+                                <stop offset="0%" stop-color="#6366f1" />
+                                <stop offset="100%" stop-color="#ec4899" />
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
+                <span class="logo-text">Derm<span class="highlight">AI</span></span>
+            </div>
+            <nav class="nav">
+                <a href="#" class="nav-link active">Analysis</a>
+                <a href="#about" class="nav-link">About</a>
+                <a href="#technology" class="nav-link">Technology</a>
+            </nav>
+            <div class="status-badge" id="status-badge">
+                <span class="status-dot"></span>
+                <span class="status-text">Checking...</span>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Hero Section -->
+            <section class="hero">
+                <div class="hero-content">
+                    <h1 class="hero-title">
+                        AI-Powered <span class="gradient-text">Skin Lesion</span> Analysis
+                    </h1>
+                    <p class="hero-subtitle">
+                        Upload dermoscopic images for instant lesion segmentation using our
+                        state-of-the-art Attention U-Net deep learning model.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Upload Section -->
+            <section class="upload-section">
+                <div class="upload-card" id="upload-area">
+                    <div class="upload-icon">
+                        <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="8" y="16" width="48" height="36" rx="4" stroke="currentColor" stroke-width="2" />
+                            <circle cx="24" cy="28" r="4" stroke="currentColor" stroke-width="2" />
+                            <path d="M8 44L24 32L36 40L56 28" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M32 8V16M28 12L32 8L36 12" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </div>
+                    <h3 class="upload-title">Drop your dermoscopic image here</h3>
+                    <p class="upload-subtitle">or click to browse • JPEG, PNG, WebP supported</p>
+                    <input type="file" id="file-input" accept="image/jpeg,image/png,image/webp" hidden>
+                    <button class="upload-btn" id="upload-btn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                            <polyline points="17,8 12,3 7,8" />
+                            <line x1="12" y1="3" x2="12" y2="15" />
+                        </svg>
+                        Select Image
+                    </button>
+                </div>
+            </section>
+
+            <!-- Results Section (Hidden by default) -->
+            <section class="results-section hidden" id="results-section">
+                <div class="results-grid">
+                    <!-- Original Image -->
+                    <div class="result-card">
+                        <div class="card-header">
+                            <span class="card-icon">📷</span>
+                            <h3 class="card-title">Original Image</h3>
+                        </div>
+                        <div class="image-container">
+                            <img id="original-image" src="" alt="Original dermoscopic image">
+                        </div>
+                    </div>
+
+                    <!-- Segmentation Mask -->
+                    <div class="result-card">
+                        <div class="card-header">
+                            <span class="card-icon">🎯</span>
+                            <h3 class="card-title">Segmentation Mask</h3>
+                        </div>
+                        <div class="image-container">
+                            <img id="mask-image" src="" alt="Segmentation mask">
+                        </div>
+                    </div>
+
+                    <!-- Overlay -->
+                    <div class="result-card overlay-card">
+                        <div class="card-header">
+                            <span class="card-icon">🔬</span>
+                            <h3 class="card-title">Lesion Overlay</h3>
+                        </div>
+                        <div class="image-container">
+                            <img id="overlay-image" src="" alt="Overlay visualization">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Metrics Panel -->
+                <div class="metrics-panel">
+                    <div class="metric-card">
+                        <div class="metric-icon confidence-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                                <polyline points="22,4 12,14.01 9,11.01" />
+                            </svg>
+                        </div>
+                        <div class="metric-content">
+                            <span class="metric-value" id="confidence-value">--</span>
+                            <span class="metric-label">Confidence Score</span>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon area-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="3" width="18" height="18" rx="2" />
+                                <circle cx="12" cy="12" r="4" />
+                            </svg>
+                        </div>
+                        <div class="metric-content">
+                            <span class="metric-value" id="area-value">--</span>
+                            <span class="metric-label">Lesion Area</span>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon model-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="12,2 2,7 12,12 22,7" />
+                                <polyline points="2,17 12,22 22,17" />
+                                <polyline points="2,12 12,17 22,12" />
+                            </svg>
+                        </div>
+                        <div class="metric-content">
+                            <span class="metric-value model-name">Attention U-Net</span>
+                            <span class="metric-label">Model Architecture</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="action-buttons">
+                    <button class="btn btn-secondary" id="new-analysis-btn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M23 4v6h-6" />
+                            <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
+                        </svg>
+                        New Analysis
+                    </button>
+                    <button class="btn btn-primary" id="download-btn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                            <polyline points="7,10 12,15 17,10" />
+                            <line x1="12" y1="15" x2="12" y2="3" />
+                        </svg>
+                        Download Results
+                    </button>
+                </div>
+            </section>
+
+            <!-- Loading State -->
+            <div class="loading-overlay hidden" id="loading-overlay">
+                <div class="loading-content">
+                    <div class="loading-spinner">
+                        <div class="spinner-ring"></div>
+                        <div class="spinner-ring"></div>
+                        <div class="spinner-ring"></div>
+                    </div>
+                    <p class="loading-text">Analyzing image...</p>
+                    <p class="loading-subtext">Running AI segmentation model</p>
+                </div>
+            </div>
+        </main>
+
+        <!-- About Section -->
+        <section class="info-section" id="about">
+            <div class="section-header">
+                <h2 class="section-title">About <span class="gradient-text">DermAI</span></h2>
+                <p class="section-subtitle">Empowering healthcare professionals with AI-assisted skin cancer detection
+                </p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="3" />
+                            <path
+                                d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
+                        </svg>
+                    </div>
+                    <h3>Advanced AI</h3>
+                    <p>Powered by Attention U-Net with MobileNetV2 encoder, trained on the ISIC 2018 dataset.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+                        </svg>
+                    </div>
+                    <h3>Real-time Analysis</h3>
+                    <p>Get instant segmentation results with confidence scores and lesion area metrics.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                        </svg>
+                    </div>
+                    <h3>Privacy First</h3>
+                    <p>All processing happens locally. Your medical images never leave your environment.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Technology Section -->
+        <section class="info-section" id="technology">
+            <div class="section-header">
+                <h2 class="section-title">The <span class="gradient-text">Technology</span></h2>
+                <p class="section-subtitle">State-of-the-art deep learning architecture for medical image segmentation
+                </p>
+            </div>
+            <div class="tech-grid">
+                <div class="tech-card">
+                    <div class="tech-header">
+                        <span class="tech-badge">Encoder</span>
+                        <h3>MobileNetV2</h3>
+                    </div>
+                    <p>Pre-trained on ImageNet, providing efficient feature extraction with inverted residuals and
+                        linear bottlenecks.</p>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-header">
+                        <span class="tech-badge">Architecture</span>
+                        <h3>Attention U-Net</h3>
+                    </div>
+                    <p>Skip connections enhanced with attention gates to focus on lesion regions while suppressing
+                        irrelevant background features.</p>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-header">
+                        <span class="tech-badge">Loss Function</span>
+                        <h3>Combined Loss</h3>
+                    </div>
+                    <p>Optimized with BCE, Dice, and Tversky losses to handle class imbalance and improve boundary
+                        precision.</p>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-header">
+                        <span class="tech-badge">Training</span>
+                        <h3>Deep Supervision</h3>
+                    </div>
+                    <p>Multi-scale loss computation at different decoder levels for better gradient flow and feature
+                        learning.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Disclaimer -->
+        <div class="disclaimer">
+            <div class="disclaimer-icon">⚠️</div>
+            <p><strong>Medical Disclaimer:</strong> This tool is for research and educational purposes only.
+                It should not be used as a substitute for professional medical advice, diagnosis, or treatment.
+                Always consult a qualified healthcare provider for medical concerns.</p>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>© 2026 raid • Powered by PyTorch & FastAPI</p>
+            <p class="footer-tech">Built with Attention U-Net • Trained on ISIC 2018 Dataset</p>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="app.js"></script>
+</body>
+
+</html>
