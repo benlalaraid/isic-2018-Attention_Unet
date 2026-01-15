@@ -1,3 +1,12 @@
+---
+title: DermAI Skin Lesion Segmentation
+emoji: 🔬
+colorFrom: purple
+colorTo: pink
+sdk: docker
+app_port: 7860
+---
+
 # DermAI - Web Application
 ## Skin Lesion Segmentation System
 
@@ -67,7 +76,7 @@ isic2018-skin-cancer-app/
 │   └── requirements.txt        # Python dependencies
 │
 ├── models/                     # Trained model weights
-│   └── best_model.pth          # (add your trained model here)
+│   └── model.pth               # (add your trained model here)
 │
 ├── notebooks/                  # Training notebooks
 │   └── mobileNetUnetAttention.py
@@ -171,7 +180,7 @@ file: <image_file>
 
 ```python
 # Model path
-MODEL_PATH = "../models/best_model.pth"
+MODEL_PATH = "../models/model.pth"
 
 # Image size (must match training)
 IMG_SIZE = 256
@@ -263,7 +272,7 @@ pydantic>=2.0.0
 
 ### Model not found
 ```
-⚠ Model file not found at models/best_model.pth
+⚠ Model file not found at models/model.pth
 ```
 **Solution**: Add your trained model to the `models/` directory.
 
@@ -297,7 +306,6 @@ ls -la client/
 ## 📄 License
 
 This project is for **research and educational purposes only**. 
-
 ⚠️ **Medical Disclaimer**: This tool should not be used as a substitute for professional medical advice, diagnosis, or treatment.
 
 ---
